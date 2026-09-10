@@ -1,0 +1,20 @@
+ping:
+  fields:
+    target:
+      required: false
+      example: ranger_cam
+      selector:
+        text:
+
+refresh_table:
+  fields:
+    sweep:
+      required: false
+      default: false
+      selector:
+        boolean:
+    subnet:
+      required: false
+      example: 192.168.0.0/24
+      selector:
+        text:

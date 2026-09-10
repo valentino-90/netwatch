@@ -1,0 +1,78 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Add a target",
+        "description": "Give the target a name you will use in dashboards and scripts. Supply a MAC to follow it wherever DHCP moves it, or an IP/hostname to seed it — with 'Follow MAC' on, the MAC is learned on first contact and used from then on.",
+        "data": {
+          "name": "Name",
+          "host": "IP address or hostname",
+          "mac": "MAC address",
+          "follow_mac": "Follow MAC once learned",
+          "interval": "Polling interval",
+          "consider_home": "Consider present for",
+          "count": "ICMP packets per check",
+          "timeout": "Timeout",
+          "subnet": "Subnet for recovery sweeps"
+        },
+        "data_description": {
+          "consider_home": "Grace period before a silent target is reported away. Rides out Wi-Fi power save.",
+          "subnet": "Left empty, the /24 around the last known address is used."
+        }
+      }
+    },
+    "error": {
+      "need_host_or_mac": "Provide an IP/hostname, a MAC address, or both.",
+      "invalid_mac": "That does not look like a MAC address."
+    },
+    "abort": {
+      "already_configured": "This target is already set up."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Tune this target",
+        "data": {
+          "interval": "Polling interval",
+          "consider_home": "Consider present for",
+          "count": "ICMP packets per check",
+          "timeout": "Timeout",
+          "subnet": "Subnet for recovery sweeps"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "ip_address": { "name": "IP address" },
+      "latency": { "name": "Latency" }
+    }
+  },
+  "services": {
+    "ping": {
+      "name": "Ping",
+      "description": "Check a target immediately, without waiting for the next poll, and return the result.",
+      "fields": {
+        "target": {
+          "name": "Target",
+          "description": "Name of the target to check. Omit to check every target."
+        }
+      }
+    },
+    "refresh_table": {
+      "name": "Refresh neighbour table",
+      "description": "Re-read the MAC-to-IP table and return it.",
+      "fields": {
+        "sweep": {
+          "name": "Sweep first",
+          "description": "Ping the subnet to repopulate the table before reading it."
+        },
+        "subnet": {
+          "name": "Subnet",
+          "description": "Subnet to sweep, for example 192.168.0.0/24."
+        }
+      }
+    }
+  }
+}

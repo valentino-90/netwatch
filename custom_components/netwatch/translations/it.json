@@ -1,0 +1,78 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Aggiungi un target",
+        "description": "Dai al target un nome, quello che userai in dashboard e negli script. Indica un MAC per seguirlo ovunque il DHCP lo sposti, oppure un IP/hostname per innescarlo: con 'Segui il MAC' attivo, il MAC viene appreso al primo contatto e usato da lì in poi.",
+        "data": {
+          "name": "Nome",
+          "host": "Indirizzo IP o hostname",
+          "mac": "Indirizzo MAC",
+          "follow_mac": "Segui il MAC una volta appreso",
+          "interval": "Intervallo di polling",
+          "consider_home": "Considera presente per",
+          "count": "Pacchetti ICMP per controllo",
+          "timeout": "Timeout",
+          "subnet": "Subnet per gli sweep di recupero"
+        },
+        "data_description": {
+          "consider_home": "Tolleranza prima di dichiarare assente un target silenzioso. Assorbe il power-save del Wi-Fi.",
+          "subnet": "Se vuoto, viene usata la /24 attorno all'ultimo indirizzo noto."
+        }
+      }
+    },
+    "error": {
+      "need_host_or_mac": "Indica un IP/hostname, un MAC, o entrambi.",
+      "invalid_mac": "Non sembra un indirizzo MAC valido."
+    },
+    "abort": {
+      "already_configured": "Questo target è già configurato."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Regola questo target",
+        "data": {
+          "interval": "Intervallo di polling",
+          "consider_home": "Considera presente per",
+          "count": "Pacchetti ICMP per controllo",
+          "timeout": "Timeout",
+          "subnet": "Subnet per gli sweep di recupero"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "ip_address": { "name": "Indirizzo IP" },
+      "latency": { "name": "Latenza" }
+    }
+  },
+  "services": {
+    "ping": {
+      "name": "Ping",
+      "description": "Controlla subito un target, senza aspettare il polling, e restituisce il risultato.",
+      "fields": {
+        "target": {
+          "name": "Target",
+          "description": "Nome del target da controllare. Lascia vuoto per controllarli tutti."
+        }
+      }
+    },
+    "refresh_table": {
+      "name": "Aggiorna tabella vicini",
+      "description": "Rilegge la tabella MAC-IP e la restituisce.",
+      "fields": {
+        "sweep": {
+          "name": "Sweep prima",
+          "description": "Pinga la subnet per ripopolare la tabella prima di leggerla."
+        },
+        "subnet": {
+          "name": "Subnet",
+          "description": "Subnet da sweepare, ad esempio 192.168.0.0/24."
+        }
+      }
+    }
+  }
+}

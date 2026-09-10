@@ -1,4 +1,7 @@
-"""Generate the NetWatch brand icons for home-assistant/brands.
+"""Generate the NetWatch brand icons.
+
+Written into custom_components/netwatch/brand/, where HACS validation looks for
+them; the same files are what a home-assistant/brands PR needs.
 
 Drawn at 4x and downsampled, because PIL does not antialias strokes: a ring
 drawn straight at 256px has visibly stepped edges, while the same ring drawn at
@@ -23,7 +26,7 @@ CORE = "#0B84F3"
 RING = "#2E9BF5"
 SWEEP = "#63B8F8"
 
-OUT_DIR = Path(__file__).resolve().parent.parent / "brands"
+OUT_DIR = Path(__file__).resolve().parent.parent / "custom_components" / "netwatch" / "brand"
 
 
 def _bbox(radius: int) -> tuple[int, int, int, int]:

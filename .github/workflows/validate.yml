@@ -1,10 +1,18 @@
 name: Validate
 
+# hassfest is Home Assistant's own structural validator: manifest key order,
+# config_flow matching an actual flow, translations lining up with strings.json,
+# services.yaml describing services that are really registered. None of it shows
+# up locally - Home Assistant loads a custom integration without checking any of
+# it - so CI is the only place these surface before a release does.
+#
+# HACS's own validation is deliberately not run here: its checks target
+# eligibility for the HACS default list, which this integration is not aiming
+# for. It is installed as a custom repository instead.
+
 on:
   push:
   pull_request:
-  schedule:
-    - cron: "0 4 * * 1"
 
 jobs:
   hassfest:
@@ -12,11 +20,3 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: home-assistant/actions/hassfest@master
-
-  hacs:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: hacs/action@main
-        with:
-          category: integration

@@ -26,6 +26,11 @@ CORE = "#0B84F3"
 RING = "#2E9BF5"
 SWEEP = "#63B8F8"
 
+# Brands expects trimmed icons. A mark floating in a wide transparent field
+# renders visibly smaller than its neighbours in the integrations list, so the
+# drawing is cropped to its own ink and re-centred with only a hairline margin.
+MARGIN_RATIO = 0.02
+
 OUT_DIR = Path(__file__).resolve().parent.parent / "custom_components" / "netwatch" / "brand"
 
 
@@ -50,10 +55,27 @@ def build() -> Image.Image:
 
     # Second echo: broken at top and bottom, which suggests rotation. Angles
     # run clockwise from 3 o'clock.
-    for start, end in ((-68, 68), (112, 248)):
+    for start, end in ((-76, 76), (104, 256)):
         draw.arc(_bbox(392), start=start, end=end, fill=SWEEP, width=60)
 
     return image
+
+
+def fit(image: Image.Image, size: int) -> Image.Image:
+    """Trim transparent padding, then centre the mark on a square canvas."""
+    cropped = image.crop(image.getchannel("A").getbbox())
+    side = max(cropped.size)
+    squared = Image.new("RGBA", (side, side), (0, 0, 0, 0))
+    squared.paste(
+        cropped,
+        ((side - cropped.width) // 2, (side - cropped.height) // 2),
+    )
+
+    margin = round(size * MARGIN_RATIO)
+    canvas = Image.new("RGBA", (size, size), (0, 0, 0, 0))
+    inner = size - 2 * margin
+    canvas.paste(squared.resize((inner, inner), Image.LANCZOS), (margin, margin))
+    return canvas
 
 
 def main() -> None:
@@ -61,9 +83,7 @@ def main() -> None:
     master = build()
 
     for name, size in (("icon.png", 256), ("icon@2x.png", 512)):
-        master.resize((size, size), Image.LANCZOS).save(
-            OUT_DIR / name, "PNG", optimize=True
-        )
+        fit(master, size).save(OUT_DIR / name, "PNG", optimize=True)
         print(f"wrote {name} ({size}x{size})")
 
 

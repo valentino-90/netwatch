@@ -1,11 +1,11 @@
 {
   "domain": "netwatch",
   "name": "NetWatch",
-  "documentation": "https://github.com/valentino-90/netwatch",
-  "issue_tracker": "https://github.com/valentino-90/netwatch/issues",
   "codeowners": ["@valentino-90"],
-  "version": "0.1.0",
   "config_flow": true,
+  "documentation": "https://github.com/valentino-90/netwatch",
   "iot_class": "local_polling",
-  "requirements": ["icmplib>=3.0.4"]
+  "issue_tracker": "https://github.com/valentino-90/netwatch/issues",
+  "requirements": ["icmplib>=3.0.4"],
+  "version": "0.1.0"
 }
